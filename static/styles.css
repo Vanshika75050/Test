@@ -9,7 +9,7 @@
 
 #chart {
     border: 1px solid black;
-    margin-top: 10%; /* Added to make spinner not colide with the arrows */
+    margin-top: 10%;
 }
 
 @keyframes spin { /* Makes the spinner rotate*/

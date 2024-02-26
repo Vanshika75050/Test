@@ -14,7 +14,7 @@
 
 <script src="scripts.js" defer></script>
 <script>
-    setTimeout(()=>{ fetch('http://localhost:3000/stocks', { //Query backend  for list of available stocks, initiating GET request
+    setTimeout(()=>{ fetch('http://localhost:3000/stocks', { //handle responses from the server and the errors 
       method: 'GET',
       mode: 'cors',
   })
@@ -36,7 +36,7 @@
                       }
                   });
           }
-              document.getElementById('loader').style.display = "none"; /* To remove and hide the spinner */
+              document.getElementById('loader').style.display = "none"; // so that the spinner stops if theres no stock 
           }else{ 
               console.log(data.error) //Log to console
           } 
