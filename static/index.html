@@ -7,11 +7,55 @@
 </head>
 <body>
 <div>
-    <span class="spinner"></span>
+    <span class="spinner" id="loader"></span>
 </div>
 
 <canvas id="chart" width="1000" height="600"></canvas>
 
 <script src="scripts.js" defer></script>
+<script>
+    setTimeout(()=>{ fetch('http://localhost:3000/stocks', { //Query backend  for list of available stocks, initiating GET request
+      method: 'GET',
+      mode: 'cors',
+  })
+      .then(response => response.json())
+      .then(data => {
+          var stockName = data.stockSymbols
+          if(data.stockSymbols){ // If stock data is not retrieved then it returns error message
+              console.log(data.stockSymbols) 
+              for (var i = 0; i < data.stockSymbols.length; i++) { 
+              fetch('http://localhost:3000/stocks' + "/" + data.stockSymbols[i], {
+                  method: 'GET',
+                  mode: 'cors',
+              })
+                  .then(response => response.json())
+                  .then(stocks => {
+                      console.log(stocks)
+                      if(stocks){
+                          document.getElementById('loader').style.display = "none";
+                      }
+                  });
+          }
+              document.getElementById('loader').style.display = "none"; /* To remove and hide the spinner */
+          }else{ 
+              console.log(data.error) //Log to console
+          } 
+         
+          for (var i = 0; i < stockName.length; i++) {  /* Query backend for data about each stock */
+              fetch('http://localhost:3000/stocks' + "/" + stockName[i], {
+                  method: 'GET',
+                  mode: 'cors',
+              })
+                  .then(response => response.json())
+                  .then(stocks => {
+                      console.log(stocks) //Log to console
+                      if(stocks){ // Hiding spinner
+                          document.getElementById('loader').style.display = "none";
+                      } // Hiding spinner
+                  });
+          } 
+      }); }, 2000); //time for the fetching to occur
+  
+</script>
 </body>
 </html>
