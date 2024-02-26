@@ -8,7 +8,7 @@ app.use(express.static(path.join(__dirname, 'static')),cors())
 
 app.get('/stocks', async (req, res, next) => {
   try {
-    const stockSymbols = [];
+    const stockSymbols = await stocks.getStocks()
     if(stockSymbols.length == 0){
       res.send({error:'Data not found! Please check the stocks data file.'})
     } else {
